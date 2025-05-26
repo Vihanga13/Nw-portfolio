@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 14% 4%; /* #0A0A0B */
+  --foreground: 0 0% 100%; /* #FFFFFF */
+  --muted: 222 14% 10%; /* #1A1A1D */
+  --muted-foreground: 0 0% 63%; /* #A0A0A0 */
+  --popover: 222 14% 18%; /* #2D2D30 */
+  --popover-foreground: 0 0% 100%; /* #FFFFFF */
+  --card: 222 14% 18%; /* #2D2D30 */
+  --card-foreground: 0 0% 100%; /* #FFFFFF */
+  --border: 0 0% 25%; /* #404040 */
+  --input: 0 0% 25%; /* #404040 */
+  --primary: 171 100% 70%; /* #64FFDA */
+  --primary-foreground: 222 14% 4%; /* #0A0A0B */
+  --secondary: 258 100% 77%; /* #BB86FC */
+  --secondary-foreground: 222 14% 4%; /* #0A0A0B */
+  --accent: 171 100% 70%; /* #64FFDA */
+  --accent-foreground: 222 14% 4%; /* #0A0A0B */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 60 9% 98%;
+  --ring: 171 100% 70%; /* #64FFDA */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222 14% 4%; /* #0A0A0B */
+  --foreground: 0 0% 100%; /* #FFFFFF */
+  --muted: 222 14% 10%; /* #1A1A1D */
+  --muted-foreground: 0 0% 63%; /* #A0A0A0 */
+  --popover: 222 14% 18%; /* #2D2D30 */
+  --popover-foreground: 0 0% 100%; /* #FFFFFF */
+  --card: 222 14% 18%; /* #2D2D30 */
+  --card-foreground: 0 0% 100%; /* #FFFFFF */
+  --border: 0 0% 25%; /* #404040 */
+  --input: 0 0% 25%; /* #404040 */
+  --primary: 171 100% 70%; /* #64FFDA */
+  --primary-foreground: 222 14% 4%; /* #0A0A0B */
+  --secondary: 258 100% 77%; /* #BB86FC */
+  --secondary-foreground: 222 14% 4%; /* #0A0A0B */
+  --accent: 171 100% 70%; /* #64FFDA */
+  --accent-foreground: 222 14% 4%; /* #0A0A0B */
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 171 100% 70%; /* #64FFDA */
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: rgba(45, 45, 48, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--primary) / 0.1);
+  }
+
+  .navbar-blur {
+    background: rgba(10, 10, 11, 0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  .skill-tag {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+    border: 1px solid hsl(var(--primary) / 0.2);
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
+  50% { box-shadow: 0 0 30px hsl(var(--primary) / 0.6); }
+}
