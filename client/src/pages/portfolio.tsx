@@ -115,7 +115,7 @@ export default function Portfolio() {
   const downloadCV = () => {
     // Create a link to download the CV
     const link = document.createElement('a');
-    link.href = '@assets/VIHANGA NILUSHA - CV.pdf';
+    link.href = '/attached_assets/VIHANGA NILUSHA - CV.pdf';
     link.download = 'Vihanga_Nilusha_CV.pdf';
     document.body.appendChild(link);
     link.click();
