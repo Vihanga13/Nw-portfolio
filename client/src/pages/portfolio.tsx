@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Timeline } from "@/components/ui/timeline";
+import { Chatbot } from "@/components/ui/chatbot";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertContactSchema, type InsertContact } from "@shared/schema";
@@ -656,6 +657,9 @@ export default function Portfolio() {
           </p>
         </div>
       </footer>
+
+      {/* Add Chatbot */}
+      <Chatbot />
     </div>
   );
 }
