@@ -18,8 +18,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         service: "gmail",
         auth: {
           user: "vihaax23@gmail.com",
-          pass: process.env.CONTACT_EMAIL_PASS || "your_app_password"
-        }
+          pass: process.env.CONTACT_EMAIL_PASS
+        },
+        debug: true, // Enable debug output
+        logger: true // Log information in console
       });
 
       const mailOptions = {

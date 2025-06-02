@@ -4,8 +4,9 @@ export const PERSONAL_INFO = {
   email: "vihaax23@gmail.com",
   phone: "+94 712 547 892",
   location: "Moratuwa, Sri Lanka",
-  linkedin: "https://linkedin.com/in/vihanga-nilusha",
-  github: "https://github.com/vihanga-nilusha",
+  linkedin: "www.linkedin.com/in/vihanga-nilusha",
+  github: "https://github.com/Vihanga13",
+  instagram: "https://www.instagram.com/kaluuu.",
   languages: ["Sinhala", "English"]
 };
 
@@ -18,6 +19,14 @@ export const ABOUT_TEXT = {
 export const PROJECTS = [
   {
     id: 1,
+    title: "AI-DRIVEN NUTRITIOUS APP",
+    type: "Solo Project",
+    description: "AI-driven nutrition app for personalized dietary management and health monitoring. Features a custom-trained machine learning model for meal recognition using Python and PyTorch, deployed via Flask API. Users can scan meal images within the Flutter app for intelligent analysis and classification, with results stored in Firebase for tracking.",
+    technologies: ["Python", "PyTorch", "Flask", "Flutter", "Firebase", "Machine Learning", "Computer Vision"],
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+  },
+  {
+    id: 2,
     title: "MEDSYNC",
     type: "Group Project",
     description: "Medical Information Management System (MIMS) with QR code identification using PyQt5, Firebase Realtime Database, and OpenCV2 to modernize public healthcare. Through literature review and user-centered design, it enhances patient data management, workflow efficiency, and compliance.",
@@ -25,7 +34,7 @@ export const PROJECTS = [
     image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
   },
   {
-    id: 2,
+    id: 3,
     title: "GREEN STAY",
     type: "Group Project", 
     description: "Platform tailored for NSBM students to facilitate hostel searches in Homagama. It employs HTML, CSS, and JavaScript for frontend development, PHP for backend operations, and MySQL for database management. Additionally, it integrates Google Maps API for mapping features.",
@@ -33,7 +42,7 @@ export const PROJECTS = [
     image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
   },
   {
-    id: 3,
+    id: 4,
     title: "GREEN RIDE",
     type: "Group Project",
     description: "Transportation app for NSBM Green University that streamlines commuting by providing public transport details and facilitating carpooling. Built with Dart and Flutter, it leverages Firebase for backend services and GitHub for collaboration.",
@@ -41,7 +50,7 @@ export const PROJECTS = [
     image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
   },
   {
-    id: 4,
+    id: 5,
     title: "CALCULATOR",
     type: "Solo Project",
     description: "Created a calculator application with complete functionality with the Tkinter framework and Python. The calculator can do brackets and percentage calculations in addition to standard arithmetic operations like addition, subtraction, multiplication, and division.",
@@ -49,7 +58,7 @@ export const PROJECTS = [
     image: "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
   },
   {
-    id: 5,
+    id: 6,
     title: "WEATHER APP",
     type: "Solo Project",
     description: "Using Python and the OpenWeatherMap API, an interactive weather forecast application was created that offers real-time weather information for any given area. Features include temperature, humidity, wind speed, and comprehensive weather descriptions with error handling.",

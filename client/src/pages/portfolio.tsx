@@ -17,7 +17,8 @@ import {
   Phone, 
   MapPin, 
   Github, 
-  Linkedin, 
+  Linkedin,
+  Instagram,
   Download,
   ExternalLink,
   Users,
@@ -192,7 +193,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="animate-fade-in">
             {/* Professional headshot */}
-            <div className="w-52 h-60 mx-auto mb-8 rounded-lg border-4 border-primary animate-pulse-glow overflow-hidden">
+            <div className="w-52 h-66 mx-auto mb-8 rounded-lg border-4 border-primary animate-pulse-glow overflow-hidden">
               <img 
                 src="\src\assets\nw.jpg" 
                 alt="Vihanga Nilusha - Professional Portrait" 
@@ -231,6 +232,9 @@ export default function Portfolio() {
               </a>
               <a href={PERSONAL_INFO.github} className="text-2xl hover:text-primary transition-colors duration-300">
                 <Github />
+              </a>
+              <a href={PERSONAL_INFO.instagram} className="text-2xl hover:text-primary transition-colors duration-300">
+                <Instagram />
               </a>
               <a href={`mailto:${PERSONAL_INFO.email}`} className="text-2xl hover:text-primary transition-colors duration-300">
                 <Mail />
@@ -537,6 +541,12 @@ export default function Portfolio() {
                     className="w-10 h-10 bg-card rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
                     <Github className="h-5 w-5" />
+                  </a>
+                  <a 
+                    href={PERSONAL_INFO.instagram} 
+                    className="w-10 h-10 bg-card rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  >
+                    <Instagram className="h-5 w-5" />
                   </a>
                 </div>
               </div>
