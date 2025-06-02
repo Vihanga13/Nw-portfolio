@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSchema, type InsertContact } from "@shared/schema";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
@@ -10,6 +11,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertContactSchema.parse(req.body);
       const contact = await storage.createContact(validatedData);
+
+      // Send email notification to site owner
+      // Configure your email transport (use your real credentials or environment variables)
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "vihaax23@gmail.com",
+          pass: process.env.CONTACT_EMAIL_PASS || "your_app_password"
+        }
+      });
+
+      const mailOptions = {
+        from: `Portfolio Contact <vihaax23@gmail.com>`,
+        to: "vihaax23@gmail.com",
+        subject: `New Contact Form Submission: ${validatedData.subject}`,
+        text: `Name: ${validatedData.name}\nEmail: ${validatedData.email}\nSubject: ${validatedData.subject}\nMessage: ${validatedData.message}`,
+        html: `<h3>New Contact Form Submission</h3><p><b>Name:</b> ${validatedData.name}</p><p><b>Email:</b> ${validatedData.email}</p><p><b>Subject:</b> ${validatedData.subject}</p><p><b>Message:</b><br/>${validatedData.message}</p>`
+      };
+
+      await transporter.sendMail(mailOptions);
+
       res.status(201).json({ 
         success: true, 
         message: "Message sent successfully!",

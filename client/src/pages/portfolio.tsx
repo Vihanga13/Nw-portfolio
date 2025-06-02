@@ -192,9 +192,9 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="animate-fade-in">
             {/* Professional headshot */}
-            <div className="w-32 h-32 mx-auto mb-8 rounded-full border-4 border-primary animate-pulse-glow overflow-hidden">
+            <div className="w-52 h-60 mx-auto mb-8 rounded-lg border-4 border-primary animate-pulse-glow overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200" 
+                src="\src\assets\nw.jpg" 
                 alt="Vihanga Nilusha - Professional Portrait" 
                 className="w-full h-full object-cover"
               />
