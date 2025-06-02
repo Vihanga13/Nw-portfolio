@@ -23,7 +23,8 @@ export const PROJECTS = [
     type: "Solo Project",
     description: "AI-driven nutrition app for personalized dietary management and health monitoring. Features a custom-trained machine learning model for meal recognition using Python and PyTorch, deployed via Flask API. Users can scan meal images within the Flutter app for intelligent analysis and classification, with results stored in Firebase for tracking.",
     technologies: ["Python", "PyTorch", "Flask", "Flutter", "Firebase", "Machine Learning", "Computer Vision"],
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/final-one.git"
   },
   {
     id: 2,
@@ -31,7 +32,8 @@ export const PROJECTS = [
     type: "Group Project",
     description: "Medical Information Management System (MIMS) with QR code identification using PyQt5, Firebase Realtime Database, and OpenCV2 to modernize public healthcare. Through literature review and user-centered design, it enhances patient data management, workflow efficiency, and compliance.",
     technologies: ["PyQt5", "Firebase", "OpenCV2", "QR Code"],
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/MedSync"
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ export const PROJECTS = [
     type: "Group Project", 
     description: "Platform tailored for NSBM students to facilitate hostel searches in Homagama. It employs HTML, CSS, and JavaScript for frontend development, PHP for backend operations, and MySQL for database management. Additionally, it integrates Google Maps API for mapping features.",
     technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL", "Google Maps API"],
-    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/GreenStay"
   },
   {
     id: 4,
@@ -47,7 +50,8 @@ export const PROJECTS = [
     type: "Group Project",
     description: "Transportation app for NSBM Green University that streamlines commuting by providing public transport details and facilitating carpooling. Built with Dart and Flutter, it leverages Firebase for backend services and GitHub for collaboration.",
     technologies: ["Flutter", "Dart", "Firebase", "Android Studio", "VS Code"],
-    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/GreenRide"
   },
   {
     id: 5,
@@ -55,7 +59,8 @@ export const PROJECTS = [
     type: "Solo Project",
     description: "Created a calculator application with complete functionality with the Tkinter framework and Python. The calculator can do brackets and percentage calculations in addition to standard arithmetic operations like addition, subtraction, multiplication, and division.",
     technologies: ["Python", "Tkinter"],
-    image: "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/Calculator"
   },
   {
     id: 6,
@@ -63,7 +68,8 @@ export const PROJECTS = [
     type: "Solo Project",
     description: "Using Python and the OpenWeatherMap API, an interactive weather forecast application was created that offers real-time weather information for any given area. Features include temperature, humidity, wind speed, and comprehensive weather descriptions with error handling.",
     technologies: ["Python", "Tkinter", "OpenWeatherMap API", "JSON"],
-    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250"
+    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250",
+    github: "https://github.com/Vihanga13/Weather-App-Python.git"
   }
 ];
 

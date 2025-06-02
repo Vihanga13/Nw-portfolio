@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
+import logoImage from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,7 @@ import {
   Menu,
   X
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 import {
   PERSONAL_INFO,
@@ -58,6 +60,32 @@ const iconMap = {
   Flask: FlaskRound,
   Cross,
   Target
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 }
+};
+
+const staggerChildren = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const slideIn = {
+  initial: { x: -20, opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+  transition: { duration: 0.5 }
+};
+
+const scaleIn = {
+  initial: { scale: 0.9, opacity: 0 },
+  animate: { scale: 1, opacity: 1 },
+  transition: { duration: 0.5 }
 };
 
 export default function Portfolio() {
@@ -112,9 +140,7 @@ export default function Portfolio() {
       });
     }
     setMobileMenuOpen(false);
-  };
-
-  const downloadCV = () => {
+  };    const downloadCV = () => {
     // Create a link to download the CV
     const link = document.createElement('a');
     link.href = '/attached_assets/VIHANGA NILUSHA - CV.pdf';
@@ -127,10 +153,22 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 navbar-blur border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-xl font-bold gradient-text">VN</div>
+      <motion.nav 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="fixed top-0 w-full z-50 navbar-blur border-b border-border"
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">          <div className="flex justify-between items-center h-20">          
+            <div className="relative group cursor-pointer hover:scale-105 transition-transform duration-300" onClick={() => scrollToSection('home')}>
+              <div className="w-20 h-20 overflow-hidden">
+                <img 
+                  src={logoImage}
+                  alt="Vihanga Nilusha"
+                  className="w-full h-full object-contain transform hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+            </div>
             
             <div className="hidden md:flex space-x-8">
               <button onClick={() => scrollToSection('home')} className="hover:text-primary transition-colors duration-300">
@@ -187,30 +225,52 @@ export default function Portfolio() {
             </div>
           )}
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="animate-fade-in">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="max-w-6xl mx-auto text-center"
+        >
+          <motion.div 
+            variants={staggerChildren}
+            initial="initial"
+            animate="animate"
+            className="animate-fade-in"
+          >
             {/* Professional headshot */}
-            <div className="w-52 h-66 mx-auto mb-8 rounded-lg border-4 border-primary animate-pulse-glow overflow-hidden">
+            <motion.div 
+              variants={scaleIn}
+              className="w-64 h-80 mx-auto mb-8 rounded-lg border-4 border-primary animate-pulse-glow overflow-hidden"
+            >
               <img 
                 src="\src\assets\nw.jpg" 
                 alt="Vihanga Nilusha - Professional Portrait" 
                 className="w-full h-full object-cover"
               />
-            </div>
+            </motion.div>
             
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6">
+            <motion.h1 
+              variants={fadeInUp}
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6"
+            >
               Hi, I'm <span className="gradient-text">{PERSONAL_INFO.name}</span>
-            </h1>
+            </motion.h1>
             
-            <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            <motion.p 
+              variants={fadeInUp}
+              className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto"
+            >
               {PERSONAL_INFO.title} & Full-Stack Developer passionate about creating innovative digital solutions
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            </motion.p>
+
+            <motion.div 
+              variants={fadeInUp}
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
               <Button 
                 onClick={() => scrollToSection('projects')}
                 className="bg-gradient-to-r from-primary to-secondary text-primary-foreground px-8 py-3 hover:scale-105 transition-transform duration-300"
@@ -225,9 +285,12 @@ export default function Portfolio() {
                 <Download className="mr-2 h-4 w-4" />
                 Download CV
               </Button>
-            </div>
+            </motion.div>
             
-            <div className="flex justify-center space-x-6 mt-8">
+            <motion.div 
+              variants={fadeInUp}
+              className="flex justify-center space-x-6 mt-8"
+            >
               <a href={PERSONAL_INFO.linkedin} className="text-2xl hover:text-primary transition-colors duration-300">
                 <Linkedin />
               </a>
@@ -243,9 +306,9 @@ export default function Portfolio() {
               <a href={`tel:${PERSONAL_INFO.phone}`} className="text-2xl hover:text-primary transition-colors duration-300">
                 <Phone />
               </a>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* About Section */}
@@ -300,7 +363,13 @@ export default function Portfolio() {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerChildren}
+          className="max-w-6xl mx-auto"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Featured <span className="gradient-text">Projects</span>
@@ -335,29 +404,41 @@ export default function Portfolio() {
                     <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                       {project.description}
                     </p>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-2 mb-4">
                       {project.technologies.map((tech) => (
                         <Badge key={tech} className="skill-tag text-xs font-mono">
                           {tech}
                         </Badge>
                       ))}
                     </div>
-                    
-                    <Button variant="link" className="text-primary hover:text-secondary p-0">
-                      View Details <ExternalLink className="ml-1 h-4 w-4" />
-                    </Button>
+                      <div className="flex items-center">
+                      <a 
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        <Github className="h-4 w-4 mr-1" />
+                        View Code
+                      </a>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Skills Section */}
       <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerChildren}
+          className="max-w-6xl mx-auto"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Skills & <span className="gradient-text">Expertise</span>
@@ -413,12 +494,18 @@ export default function Portfolio() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Education Section */}
       <section id="education" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerChildren}
+          className="max-w-6xl mx-auto"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Education & <span className="gradient-text">Certifications</span>
@@ -430,12 +517,18 @@ export default function Portfolio() {
           </div>
           
           <Timeline items={EDUCATION} />
-        </div>
+        </motion.div>
       </section>
 
       {/* Experience Section */}
       <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerChildren}
+          className="max-w-6xl mx-auto"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Leadership & <span className="gradient-text">Experience</span>
@@ -467,12 +560,18 @@ export default function Portfolio() {
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
+        <motion.div 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerChildren}
+          className="max-w-6xl mx-auto"
+        >
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Get In <span className="gradient-text">Touch</span>
@@ -643,11 +742,16 @@ export default function Portfolio() {
               </Form>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t border-border">
+      <motion.footer 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="py-8 px-4 sm:px-6 lg:px-8 border-t border-border"
+      >
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-muted-foreground mb-4">
             &copy; 2024 Vihanga Nilusha. All rights reserved.
@@ -656,7 +760,7 @@ export default function Portfolio() {
             Built with passion using MERN Stack • Designed for modern web experiences
           </p>
         </div>
-      </footer>
+      </motion.footer>
 
       {/* Add Chatbot */}
       <Chatbot />
