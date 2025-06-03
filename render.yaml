@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: portfolio-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: EMAIL_USER
+        sync: false
+      - key: CONTACT_EMAIL_PASS
+        sync: false
+
+static_sites:
+  - type: static
+    name: portfolio-frontend
+    buildCommand: npm run build
+    publishDir: dist/public
+    envVars:
+      - key: VITE_API_URL
+        value: https://portfolio-backend.onrender.com
