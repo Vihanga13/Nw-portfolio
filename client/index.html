@@ -3,8 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link rel="icon" type="image" href="/Nw-portfolio/assets/logo.png" sizes="32x32">
+    <base href="/Nw-portfolio/">
+    <link rel="icon" type="image" href="assets/logo.png" sizes="32x32">
     <title>Vihanga</title>
+    <script>
+      (function() {
+        const { pathname } = window.location;
+        if (pathname.startsWith('/Nw-portfolio')) {
+          const withoutBase = pathname.replace('/Nw-portfolio', '');
+          if (withoutBase && withoutBase !== '/') {
+            sessionStorage.setItem('redirectPath', withoutBase);
+            window.location.href = '/Nw-portfolio/';
+          }
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
