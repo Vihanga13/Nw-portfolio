@@ -754,7 +754,7 @@ export default function Portfolio() {
       >
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-muted-foreground mb-4">
-            &copy; 2024 Vihanga Nilusha. All rights reserved.
+            &copy; 2025 Vihanga Nilusha. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground">
             Built with passion using MERN Stack • Designed for modern web experiences

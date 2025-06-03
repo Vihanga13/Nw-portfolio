@@ -1,6 +1,43 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Set up __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables from .env file
+const envPath = path.resolve(__dirname, '../.env');
+console.log('Loading .env file from:', envPath);
+
+const result = dotenv.config({ path: envPath });
+
+if (result.error) {
+  console.error('Error loading .env file:', result.error);
+  process.exit(1);
+}
+
+// Print current working directory and environment variables
+console.log('Current working directory:', process.cwd());
+console.log('Loaded environment variables:', {
+  EMAIL_USER: process.env.EMAIL_USER,
+  CONTACT_EMAIL_PASS_LENGTH: process.env.CONTACT_EMAIL_PASS ? process.env.CONTACT_EMAIL_PASS.length : 0,
+  NODE_ENV: process.env.NODE_ENV
+});
+
+// Verify required environment variables
+const requiredEnvVars = ['EMAIL_USER', 'CONTACT_EMAIL_PASS'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars.join(', '));
+  process.exit(1);
+}
+
+console.log('Environment loaded successfully. Email configured for:', process.env.EMAIL_USER);
 
 const app = express();
 app.use(express.json());
