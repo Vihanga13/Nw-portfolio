@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 // Set up __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -90,14 +91,34 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    serveStaticFiles(app);
   }
+
+  // Serve static files from the client/public directory
+  app.use(express.static(path.resolve(__dirname, "../client/public")));
+
+  // Serve static files from the client/dist directory
+  app.use(express.static(path.resolve(__dirname, "../client/dist")));
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = 5000;
-  app.listen(5000, () => {
-    log(`serving on port ${port}`);
+  const port = 5001;
+  app.listen(5001, () => {
+    const url = `http://localhost:${port}`;
+    log(`Server is running at ${url}`);
   });
 })();
+
+function serveStaticFiles(app: express.Express): void {
+  const distPath = path.resolve(__dirname, "../client/dist");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app.use(express.static(distPath));
+  app.use("*", (_req: express.Request, res: express.Response) => {
+    res.sendFile(path.resolve(distPath, "index.html"));
+  });
+}

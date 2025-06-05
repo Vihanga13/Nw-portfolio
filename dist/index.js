@@ -314,7 +314,7 @@ async function setupVite(app2, server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true
+    allowedHosts: void 0
   };
   const vite = await createViteServer({
     ...vite_config_default,
@@ -352,23 +352,12 @@ async function setupVite(app2, server) {
     }
   });
 }
-function serveStatic(app2) {
-  const distPath = path3.resolve(import.meta.dirname, "public");
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
-  }
-  app2.use(express.static(distPath));
-  app2.use("*", (_req, res) => {
-    res.sendFile(path3.resolve(distPath, "index.html"));
-  });
-}
 
 // server/index.ts
 import dotenv2 from "dotenv";
 import path4 from "path";
 import { fileURLToPath as fileURLToPath2 } from "url";
+import fs2 from "fs";
 var __filename2 = fileURLToPath2(import.meta.url);
 var __dirname2 = path4.dirname(__filename2);
 var envPath2 = path4.resolve(__dirname2, "../.env");
@@ -429,10 +418,25 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    serveStaticFiles(app);
   }
-  const port = 5e3;
-  app.listen(5e3, () => {
-    log(`serving on port ${port}`);
+  app.use(express2.static(path4.resolve(__dirname2, "../client/public")));
+  app.use(express2.static(path4.resolve(__dirname2, "../client/dist")));
+  const port = 5001;
+  app.listen(5001, () => {
+    const url = `http://localhost:${port}`;
+    log(`Server is running at ${url}`);
   });
 })();
+function serveStaticFiles(app2) {
+  const distPath = path4.resolve(__dirname2, "../client/dist");
+  if (!fs2.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express2.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path4.resolve(distPath, "index.html"));
+  });
+}

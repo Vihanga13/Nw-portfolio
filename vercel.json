@@ -6,13 +6,24 @@
     },
     {
       "src": "client/index.html",
-      "use": "@vercel/static"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "client/dist"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/favicon.ico",
+      "dest": "client/dist/favicon.ico"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "server/index.ts"
+    },
+    {
       "src": "/(.*)",
-      "dest": "client/index.html"
+      "dest": "client/dist/index.html"
     }
   ]
 }
