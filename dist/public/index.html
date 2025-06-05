@@ -3,14 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link rel="icon" type="image" href="/assets/logo-CZQs6kDC.png" sizes="32x32">
-    <title>Vihanga</title>
-    <script type="module" crossorigin src="/assets/index-BxLXH5_-.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DcaOsfy8.css">
+    <base href="/Nw-portfolio/">
+    <link rel="icon" type="image" href="assets/logo.png" sizes="32x32">
+    <title>Vihanga Nilusha</title>
+    <script>
+      (function() {
+        const { pathname } = window.location;
+        if (pathname.startsWith('/Nw-portfolio')) {
+          const withoutBase = pathname.replace('/Nw-portfolio', '');
+          if (withoutBase && withoutBase !== '/') {
+            sessionStorage.setItem('redirectPath', withoutBase);
+            window.location.href = '/Nw-portfolio/';
+          }
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DSSte8Cx.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-9Wu_fREQ.css">
   </head>
   <body>
     <div id="root"></div>
-    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
-    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
 </html>
