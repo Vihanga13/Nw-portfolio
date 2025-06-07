@@ -99,8 +99,8 @@ app.use((req, res, next) => {
   // Serve static files from the client/public directory
   app.use(express.static(path.resolve(__dirname, "../client/public")));
 
-  // Serve static files from the client/dist directory
-  app.use(express.static(path.resolve(__dirname, "../client/dist")));
+  // Serve static files from the build directory
+  app.use(express.static(path.resolve(__dirname, "../dist/public")));
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
@@ -113,7 +113,7 @@ app.use((req, res, next) => {
 })();
 
 function serveStaticFiles(app: express.Express): void {
-  const distPath = path.resolve(__dirname, "../client/dist");
+  const distPath = path.resolve(__dirname, "../dist/public");
   if (!fs.existsSync(distPath)) {
     throw new Error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`

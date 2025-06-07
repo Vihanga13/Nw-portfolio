@@ -22,6 +22,9 @@ RUN npm run build
 # Production stage
 FROM node:18-alpine AS production
 
+# Set environment variables
+ENV NODE_ENV=production
+
 # Set working directory
 WORKDIR /app
 

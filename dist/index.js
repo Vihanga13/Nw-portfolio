@@ -424,7 +424,7 @@ app.use((req, res, next) => {
     serveStaticFiles(app);
   }
   app.use(express2.static(path4.resolve(__dirname2, "../client/public")));
-  app.use(express2.static(path4.resolve(__dirname2, "../client/dist")));
+  app.use(express2.static(path4.resolve(__dirname2, "../dist/public")));
   const port = 5001;
   app.listen(5001, () => {
     const url = `http://localhost:${port}`;
@@ -432,7 +432,7 @@ app.use((req, res, next) => {
   });
 })();
 function serveStaticFiles(app2) {
-  const distPath = path4.resolve(__dirname2, "../client/dist");
+  const distPath = path4.resolve(__dirname2, "../dist/public");
   if (!fs2.existsSync(distPath)) {
     throw new Error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`
