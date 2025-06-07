@@ -9,6 +9,10 @@ var __export = (target, all) => {
 };
 
 // vite.config.ts
+var vite_config_exports = {};
+__export(vite_config_exports, {
+  default: () => vite_config_default
+});
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path3 from "path";
@@ -70,7 +74,6 @@ __export(vite_exports, {
 import express2 from "express";
 import fs2 from "fs";
 import path4 from "path";
-import { createServer as createViteServer, createLogger } from "vite";
 import { nanoid } from "nanoid";
 function log2(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
@@ -82,13 +85,16 @@ function log2(message, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 async function setupVite(app2, server) {
+  const { createServer: createViteServer, createLogger } = await import("vite");
+  const viteLogger = createLogger();
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: void 0
   };
+  const { default: viteConfig } = await init_vite_config().then(() => vite_config_exports);
   const vite = await createViteServer({
-    ...vite_config_default,
+    ...viteConfig,
     configFile: false,
     customLogger: {
       ...viteLogger,
@@ -136,12 +142,9 @@ function serveStatic2(app2) {
     res.sendFile(path4.resolve(distPath, "index.html"));
   });
 }
-var viteLogger;
 var init_vite = __esm({
-  async "server/vite.ts"() {
+  "server/vite.ts"() {
     "use strict";
-    await init_vite_config();
-    viteLogger = createLogger();
   }
 });
 
@@ -484,7 +487,7 @@ app.use((req, res, next) => {
     throw err;
   });
   if (app.get("env") === "development") {
-    const { setupVite: setupVite2 } = await init_vite().then(() => vite_exports);
+    const { setupVite: setupVite2 } = await Promise.resolve().then(() => (init_vite(), vite_exports));
     await setupVite2(app, server);
   } else {
     serveStatic(app);
