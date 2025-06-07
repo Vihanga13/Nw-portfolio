@@ -292,7 +292,12 @@ var vite_config_default = defineConfig({
           return "assets/[name]-[hash][extname]";
         },
         chunkFileNames: "assets/[name]-[hash].js",
-        entryFileNames: "assets/[name]-[hash].js"
+        entryFileNames: "assets/[name]-[hash].js",
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            return id.split("node_modules/")[1].split("/")[0];
+          }
+        }
       }
     }
   }
@@ -363,9 +368,11 @@ var __dirname2 = path4.dirname(__filename2);
 var envPath2 = path4.resolve(__dirname2, "../.env");
 console.log("Loading .env file from:", envPath2);
 var result2 = dotenv2.config({ path: envPath2 });
-if (result2.error) {
+if (result2.error && process.env.NODE_ENV !== "production") {
   console.error("Error loading .env file:", result2.error);
-  process.exit(1);
+  console.log("This is expected in production environments where env vars are set directly");
+} else if (result2.error) {
+  console.log("No .env file found, using environment variables from system");
 }
 console.log("Current working directory:", process.cwd());
 console.log("Loaded environment variables:", {

@@ -16,9 +16,11 @@ console.log('Loading .env file from:', envPath);
 
 const result = dotenv.config({ path: envPath });
 
-if (result.error) {
+if (result.error && process.env.NODE_ENV !== 'production') {
   console.error('Error loading .env file:', result.error);
-  process.exit(1);
+  console.log('This is expected in production environments where env vars are set directly');
+} else if (result.error) {
+  console.log('No .env file found, using environment variables from system');
 }
 
 // Print current working directory and environment variables
