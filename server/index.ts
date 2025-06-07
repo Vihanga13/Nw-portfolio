@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import { log, serveStatic } from "./utils";
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -91,16 +91,11 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
+    const { setupVite } = await import("./vite");
     await setupVite(app, server);
   } else {
-    serveStaticFiles(app);
+    serveStatic(app);
   }
-
-  // Serve static files from the client/public directory
-  app.use(express.static(path.resolve(__dirname, "../client/public")));
-
-  // Serve static files from the build directory
-  app.use(express.static(path.resolve(__dirname, "../dist/public")));
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
@@ -111,16 +106,3 @@ app.use((req, res, next) => {
     log(`Server is running at ${url}`);
   });
 })();
-
-function serveStaticFiles(app: express.Express): void {
-  const distPath = path.resolve(__dirname, "../dist/public");
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
-  }
-  app.use(express.static(distPath));
-  app.use("*", (_req: express.Request, res: express.Response) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
-  });
-}

@@ -1,5 +1,152 @@
-// server/index.ts
+var __defProp = Object.defineProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path3 from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default;
+var init_vite_config = __esm({
+  async "vite.config.ts"() {
+    "use strict";
+    vite_config_default = defineConfig({
+      plugins: [
+        react(),
+        runtimeErrorOverlay(),
+        ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+          await import("@replit/vite-plugin-cartographer").then(
+            (m) => m.cartographer()
+          )
+        ] : []
+      ],
+      resolve: {
+        alias: {
+          "@": path3.resolve(import.meta.dirname, "client", "src"),
+          "@shared": path3.resolve(import.meta.dirname, "shared"),
+          "@assets": path3.resolve(import.meta.dirname, "attached_assets")
+        }
+      },
+      root: path3.resolve(import.meta.dirname, "client"),
+      build: {
+        outDir: path3.resolve(import.meta.dirname, "dist/public"),
+        emptyOutDir: true,
+        rollupOptions: {
+          output: {
+            assetFileNames: (assetInfo) => {
+              if (assetInfo.name === "logo.png") {
+                return "assets/[name][extname]";
+              }
+              return "assets/[name]-[hash][extname]";
+            },
+            chunkFileNames: "assets/[name]-[hash].js",
+            entryFileNames: "assets/[name]-[hash].js",
+            manualChunks: (id) => {
+              if (id.includes("node_modules")) {
+                return id.split("node_modules/")[1].split("/")[0];
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+
+// server/vite.ts
+var vite_exports = {};
+__export(vite_exports, {
+  log: () => log2,
+  serveStatic: () => serveStatic2,
+  setupVite: () => setupVite
+});
 import express2 from "express";
+import fs2 from "fs";
+import path4 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+import { nanoid } from "nanoid";
+function log2(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: void 0
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path4.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs2.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic2(app2) {
+  const distPath = path4.resolve(import.meta.dirname, "public");
+  if (!fs2.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express2.static(distPath));
+  app2.use(express2.static(path4.resolve(import.meta.dirname, "../client/dist")));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path4.resolve(distPath, "index.html"));
+  });
+}
+var viteLogger;
+var init_vite = __esm({
+  async "server/vite.ts"() {
+    "use strict";
+    await init_vite_config();
+    viteLogger = createLogger();
+  }
+});
+
+// server/index.ts
+import express3 from "express";
 
 // server/routes.ts
 import dotenv from "dotenv";
@@ -247,61 +394,10 @@ Message: ${validatedData.message}`,
   return httpServer;
 }
 
-// server/vite.ts
+// server/utils.ts
 import express from "express";
 import fs from "fs";
-import path3 from "path";
-import { createServer as createViteServer, createLogger } from "vite";
-
-// vite.config.ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import path2 from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-var vite_config_default = defineConfig({
-  plugins: [
-    react(),
-    runtimeErrorOverlay(),
-    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
-      await import("@replit/vite-plugin-cartographer").then(
-        (m) => m.cartographer()
-      )
-    ] : []
-  ],
-  resolve: {
-    alias: {
-      "@": path2.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path2.resolve(import.meta.dirname, "shared"),
-      "@assets": path2.resolve(import.meta.dirname, "attached_assets")
-    }
-  },
-  root: path2.resolve(import.meta.dirname, "client"),
-  build: {
-    outDir: path2.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === "logo.png") {
-            return "assets/[name][extname]";
-          }
-          return "assets/[name]-[hash][extname]";
-        },
-        chunkFileNames: "assets/[name]-[hash].js",
-        entryFileNames: "assets/[name]-[hash].js",
-        manualChunks: (id) => {
-          if (id.includes("node_modules")) {
-            return id.split("node_modules/")[1].split("/")[0];
-          }
-        }
-      }
-    }
-  }
-});
-
-// server/vite.ts
-import { nanoid } from "nanoid";
-var viteLogger = createLogger();
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -311,57 +407,26 @@ function log(message, source = "express") {
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
-async function setupVite(app2, server) {
-  const serverOptions = {
-    middlewareMode: true,
-    hmr: { server },
-    allowedHosts: void 0
-  };
-  const vite = await createViteServer({
-    ...vite_config_default,
-    configFile: false,
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        viteLogger.error(msg, options);
-        process.exit(1);
-      }
-    },
-    server: serverOptions,
-    appType: "custom"
-  });
-  app2.use(vite.middlewares);
-  app2.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
-    try {
-      const clientTemplate = path3.resolve(
-        import.meta.dirname,
-        "..",
-        "client",
-        "index.html"
-      );
-      let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`
-      );
-      const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
-    } catch (e) {
-      vite.ssrFixStacktrace(e);
-      next(e);
-    }
+function serveStatic(app2) {
+  const distPath = path2.resolve(import.meta.dirname, "../dist/public");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path2.resolve(distPath, "index.html"));
   });
 }
 
 // server/index.ts
 import dotenv2 from "dotenv";
-import path4 from "path";
+import path5 from "path";
 import { fileURLToPath as fileURLToPath2 } from "url";
-import fs2 from "fs";
 var __filename2 = fileURLToPath2(import.meta.url);
-var __dirname2 = path4.dirname(__filename2);
-var envPath2 = path4.resolve(__dirname2, "../.env");
+var __dirname2 = path5.dirname(__filename2);
+var envPath2 = path5.resolve(__dirname2, "../.env");
 console.log("Loading .env file from:", envPath2);
 var result2 = dotenv2.config({ path: envPath2 });
 if (result2.error && process.env.NODE_ENV !== "production") {
@@ -383,12 +448,12 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 console.log("Environment loaded successfully. Email configured for:", process.env.EMAIL_USER);
-var app = express2();
-app.use(express2.json());
-app.use(express2.urlencoded({ extended: false }));
+var app = express3();
+app.use(express3.json());
+app.use(express3.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   const start = Date.now();
-  const path5 = req.path;
+  const path6 = req.path;
   let capturedJsonResponse = void 0;
   const originalResJson = res.json;
   res.json = function(bodyJson, ...args) {
@@ -397,8 +462,8 @@ app.use((req, res, next) => {
   };
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path5.startsWith("/api")) {
-      let logLine = `${req.method} ${path5} ${res.statusCode} in ${duration}ms`;
+    if (path6.startsWith("/api")) {
+      let logLine = `${req.method} ${path6} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
@@ -419,27 +484,14 @@ app.use((req, res, next) => {
     throw err;
   });
   if (app.get("env") === "development") {
-    await setupVite(app, server);
+    const { setupVite: setupVite2 } = await init_vite().then(() => vite_exports);
+    await setupVite2(app, server);
   } else {
-    serveStaticFiles(app);
+    serveStatic(app);
   }
-  app.use(express2.static(path4.resolve(__dirname2, "../client/public")));
-  app.use(express2.static(path4.resolve(__dirname2, "../dist/public")));
   const port = 5001;
   app.listen(5001, () => {
     const url = `http://localhost:${port}`;
     log(`Server is running at ${url}`);
   });
 })();
-function serveStaticFiles(app2) {
-  const distPath = path4.resolve(__dirname2, "../dist/public");
-  if (!fs2.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
-  }
-  app2.use(express2.static(distPath));
-  app2.use("*", (_req, res) => {
-    res.sendFile(path4.resolve(distPath, "index.html"));
-  });
-}
