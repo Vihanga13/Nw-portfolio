@@ -9,10 +9,6 @@ import { createServer } from "http";
 
 // server/storage.ts
 var MemStorage = class {
-  users;
-  contacts;
-  currentUserId;
-  currentContactId;
   constructor() {
     this.users = /* @__PURE__ */ new Map();
     this.contacts = /* @__PURE__ */ new Map();

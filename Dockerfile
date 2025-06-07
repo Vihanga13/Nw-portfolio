@@ -1,5 +1,5 @@
-# Use Node.js LTS version
-FROM node:18-alpine
+# Multi-stage build for better efficiency
+FROM node:18-alpine AS builder
 
 # Install build dependencies
 RUN apk add --no-cache python3 make g++
@@ -16,14 +16,23 @@ RUN npm ci --only=production=false
 # Copy source code
 COPY . .
 
-# Debug information
-RUN npm run debug || echo "Debug script failed, continuing..."
-
 # Build application
 RUN npm run build
 
-# Clean up dev dependencies
-RUN npm prune --production
+# Production stage
+FROM node:18-alpine AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install only production dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application from builder stage
+COPY --from=builder /app/dist ./dist
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
